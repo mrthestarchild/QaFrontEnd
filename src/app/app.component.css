@@ -1,0 +1,31 @@
+
+  @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+  *{
+    font-family: 'Roboto', sans-serif; 
+  }
+  .nav-wrapper{
+    display: block;
+    float: left;
+    width: 100%;
+    background: #333;
+  }
+  .nav-container {
+    display: block;
+    float: left;
+    width: 100%;
+  }
+  .logo-container{
+    color: #fff;
+    padding: 0 2%;
+    font-weight: normal;
+  }
+  .router-wrapper{
+    display: block;
+    width: 100%;
+    margin: auto;
+  }
+  .router-container{
+    display: block;
+    float: left;
+    width: 100%;
+  }

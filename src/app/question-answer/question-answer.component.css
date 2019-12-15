@@ -1,0 +1,15 @@
+.qa-wrapper {
+    display: block;
+    width: 80%;
+    margin: auto;
+}
+.qa-container {
+    display: block;
+    float: left;
+    width: 100%;
+    padding: 5% 0;
+}
+.full-width{
+    width: 50%;
+    min-width: 250px;
+}

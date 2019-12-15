@@ -1,0 +1,22 @@
+<div class="qa-wrapper">
+    <div class="qa-container">
+        <mat-form-field class="full-width" >
+            <input matInput color='accent' placeholder="What would you like to know?" [(ngModel)]="question" #ctrl="ngModel">
+        </mat-form-field>
+        <br>
+        <button  mat-button [disabled]="!question || needHumanTraining" (click)="sendQuestion(question)" >Ask Away!</button>
+        <div class="human-training-wrapper" *ngIf="needHumanTraining">
+            <!-- <p>We don't know what {{qaResponse.TrainingModel.QuestionIdentifier}} means.</p> -->
+            <p>Please fill out this form and submit it.</p>
+            <mat-checkbox color="primary" [(ngModel)]="trainingTemplate.Date" >Date</mat-checkbox><br>
+            <mat-checkbox color="primary" [(ngModel)]="trainingTemplate.Location" >Location</mat-checkbox><br>
+            <mat-checkbox color="primary" [(ngModel)]="trainingTemplate.Money" >Money</mat-checkbox><br>
+            <mat-checkbox color="primary" [(ngModel)]="trainingTemplate.Organization" >Organization</mat-checkbox><br>
+            <mat-checkbox color="primary" [(ngModel)]="trainingTemplate.Percentage" >Percentage</mat-checkbox><br>
+            <mat-checkbox color="primary" [(ngModel)]="trainingTemplate.Person" >Person</mat-checkbox><br>
+            <mat-checkbox color="primary" [(ngModel)]="trainingTemplate.Time" >Time</mat-checkbox><br><br>
+            <button  mat-button [disabled]="" (click)="sendQuestion(question)" >Teach This Machine!</button>
+        </div>
+    </div>
+</div>
+
