@@ -1,12 +1,26 @@
 <div class="qa-wrapper">
     <div class="qa-container">
         <mat-form-field class="full-width" >
-            <input matInput color='accent' placeholder="What would you like to know?" [(ngModel)]="question" #ctrl="ngModel">
+            <input matInput color='accent' placeholder="What would you like to know?" (keydown)="$event.keyCode == 13 ? sendQuestion(question) : null"  [(ngModel)]="question" #ctrl="ngModel">
         </mat-form-field>
         <br>
-        <button  mat-button [disabled]="!question || needHumanTraining" (click)="sendQuestion(question)" >Ask Away!</button>
+        <button *ngIf="!loading" mat-button [disabled]="!question || needHumanTraining" (click)="sendQuestion(question)" >Ask Away!</button>
+        <div *ngIf="loading" ><mat-spinner></mat-spinner></div>
+        <br>
+        <div *ngIf="answer">
+            <p>We think the answer is <strong>{{answer}}</strong> with a certainty of <strong>{{score}}</strong></p>
+            <p>We found it here:</p>
+            <p>{{originalSentence}}</p>
+        </div>
+        <div *ngIf="showError">
+            <h5>Error:</h5><p>{{errorMessage}}</p>
+        </div>
+        <div *ngIf="showNoAnswer">
+            <p>{{showNoAnswer}}</p>
+        </div>
+        <br>
         <div class="human-training-wrapper" *ngIf="needHumanTraining">
-            <!-- <p>We don't know what {{qaResponse.TrainingModel.QuestionIdentifier}} means.</p> -->
+            <p>We don't know what <strong>{{qaResponse.TrainingModel.QuestionIdentifier}}</strong> means.</p>
             <p>Please fill out this form and submit it.</p>
             <mat-checkbox color="primary" [(ngModel)]="trainingTemplate.Date" >Date</mat-checkbox><br>
             <mat-checkbox color="primary" [(ngModel)]="trainingTemplate.Location" >Location</mat-checkbox><br>
@@ -15,7 +29,7 @@
             <mat-checkbox color="primary" [(ngModel)]="trainingTemplate.Percentage" >Percentage</mat-checkbox><br>
             <mat-checkbox color="primary" [(ngModel)]="trainingTemplate.Person" >Person</mat-checkbox><br>
             <mat-checkbox color="primary" [(ngModel)]="trainingTemplate.Time" >Time</mat-checkbox><br><br>
-            <button  mat-button [disabled]="" (click)="sendQuestion(question)" >Teach This Machine!</button>
+            <button  mat-button [disabled]="" (click)="trainViaHuman(question)" >Teach This Machine!</button>
         </div>
     </div>
 </div>

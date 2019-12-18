@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { QAService } from 'src/services/qa-service.service';
 import { Observable } from 'rxjs';
 import { QuestionAnswerModel, ExternalHumanTrainingModel } from 'src/models/QuestionAnswer.model';
@@ -20,34 +20,46 @@ export class QuestionAnswerComponent implements OnInit {
   showError: boolean = false;
 
   showNoAnswer: string;
+  originalSentence: string;
   answer: string;
+  score: number;
   errorMessage: string;
+  loading: boolean = false;
 
-  constructor(private qaService: QAService) {
-    // this.qaResponse = new QuestionAnswerModel();
+  constructor(@Inject(QAService) private qaService: QAService) {
     this.trainingTemplate = new ExternalHumanTrainingModel();
   }
   ngOnInit() {}
 
-  sendQuestion(sentence: string){
-    this.qaService.askQuestion(sentence).subscribe((res: QuestionAnswerModel)=>{
+  sendQuestion(userSentence: string){
+    this.loading = true;
+    this.answer = "";
+    this.needHumanTraining = false;
+    this.showError = false;
+    this.qaService.askQuestion(userSentence).subscribe((res: QuestionAnswerModel)=>{
       this.qaResponse = res;
       if(this.qaResponse.StatusCode == "SUCCESS"){
         this.answer = this.qaResponse.Answer;
+        this.score = this.qaResponse.Score;
+        this.originalSentence = this.qaResponse.FoundAnswerSentence;
         this.showError = false;
+        this.loading = false;
       }
       else if(this.qaResponse.StatusCode == "NO_ANSWER_FOUND"){
         this.showNoAnswer = this.qaResponse.StatusMessage;
         this.showError = false;
+        this.loading = false;
       }
       else if(this.qaResponse.StatusCode == "NEEDS_HUMAN_TRAINING"){
         this.needHumanTraining = true;
         this.trainingTemplate = this.qaResponse.TrainingModel;
         this.showError = false;
+        this.loading = false;
       }
       else{
         this.showError = true;
         this.errorMessage = this.qaResponse.StatusMessage;
+        this.loading = false;
       }
     });
   }

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,7 +10,8 @@ import { QAService } from './../services/qa-service.service'
 import { FormsModule } from '@angular/forms';
 import { MatInputModule,
          MatButtonModule,
-         MatCheckboxModule 
+         MatCheckboxModule,
+         MatProgressSpinnerModule 
                         } from '@angular/material';
 
 
@@ -27,9 +28,10 @@ import { MatInputModule,
     FormsModule,
     MatInputModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatProgressSpinnerModule
   ],
-  providers: [ QAService ],
+  providers: [ QAService, HttpClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
